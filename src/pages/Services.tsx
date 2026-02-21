@@ -1,53 +1,60 @@
-import { Zap, Droplet, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Zap, Droplet, ArrowRight, CheckCircle2, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { SERVICE_DETAILS } from "@/constants/services";
+import type { ServiceCategory } from "@/constants/services";
+import type { ReactNode } from "react";
 
-const electricalServices = [
-  {
-    title: "Wiring & Rewiring",
-    description:
-      "Complete home and office wiring solutions, ensuring safety and code compliance for new builds or renovations.",
-  },
-  {
-    title: "Panel Upgrades",
-    description:
-      "Modernize your electrical panel to handle increased power loads and improve safety.",
-  },
-  {
-    title: "Smart Home Installation",
-    description:
-      "Integration of smart lighting, thermostats, and security systems for a connected home.",
-  },
-  {
-    title: "Lighting Design",
-    description:
-      "Indoor and outdoor lighting solutions to enhance aesthetics and functionality.",
-  },
-];
+function ServiceSection({
+  id,
+  title,
+  icon,
+  iconClassName,
+  borderClassName,
+  category,
+}: {
+  id: string;
+  title: string;
+  icon: ReactNode;
+  iconClassName: string;
+  borderClassName: string;
+  category: ServiceCategory;
+}) {
+  const services = SERVICE_DETAILS.filter((service) => service.category === category);
 
-const plumbingServices = [
-  {
-    title: "Leak Detection & Repair",
-    description:
-      "Advanced technology to locate and fix leaks quickly, preventing water damage.",
-  },
-  {
-    title: "Pipe Installation",
-    description:
-      "Professional piping for water supply, drainage, and gas lines in residential and commercial properties.",
-  },
-  {
-    title: "Water Heater Services",
-    description:
-      "Installation, repair, and maintenance of tankless and traditional water heaters.",
-  },
-  {
-    title: "Drain Cleaning",
-    description:
-      "Effective solutions for clogged drains to restore proper flow and hygiene.",
-  },
-];
+  return (
+    <section id={id} className="py-20 container mx-auto px-4 md:px-6">
+      <div className="flex items-center gap-4 mb-12">
+        <div className={`p-3 rounded-xl ${iconClassName}`}>{icon}</div>
+        <h2 className="text-3xl font-heading font-bold">{title}</h2>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {services.map((service) => (
+          <div
+            key={service.slug}
+            className={`p-6 border border-border rounded-xl bg-card ${borderClassName} transition-colors`}
+          >
+            <h3 className="text-xl font-bold mb-3 flex items-center gap-2">
+              <CheckCircle2 size={20} className="text-secondary" />
+              {service.title}
+            </h3>
+            <p className="text-muted-foreground ml-7 leading-relaxed mb-5">
+              {service.shortDescription}
+            </p>
+            <Link
+              to={`/services/${service.slug}`}
+              className="inline-flex ml-7 items-center text-sm font-medium text-primary hover:text-secondary transition-colors"
+            >
+              View Details <ArrowRight size={14} className="ml-1" />
+            </Link>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 export function Services() {
   return (
@@ -72,65 +79,40 @@ export function Services() {
         </div>
       </section>
 
-      {/* Electrical Section */}
-      <section id="electrical" className="py-20 container mx-auto px-4 md:px-6">
-        <div className="flex items-center gap-4 mb-12">
-          <div className="p-3 bg-secondary/10 rounded-xl text-secondary">
-            <Zap size={32} />
-          </div>
-          <h2 className="text-3xl font-heading font-bold">
-            Electrical Services
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {electricalServices.map((service, index) => (
-            <div
-              key={index}
-              className="p-6 border border-border rounded-xl bg-card hover:border-secondary/50 transition-colors"
-            >
-              <h3 className="text-xl font-bold mb-3 flex items-center gap-2">
-                <CheckCircle2 size={20} className="text-secondary" />
-                {service.title}
-              </h3>
-              <p className="text-muted-foreground ml-7 leading-relaxed">
-                {service.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <ServiceSection
+        id="electrical"
+        title="Electrical Services"
+        icon={<Zap size={32} />}
+        iconClassName="bg-secondary/10 text-secondary"
+        borderClassName="hover:border-secondary/50"
+        category="electrical"
+      />
 
       <div className="container mx-auto px-4">
         <div className="h-px bg-border w-full" />
       </div>
 
-      {/* Plumbing Section */}
-      <section id="plumbing" className="py-20 container mx-auto px-4 md:px-6">
-        <div className="flex items-center gap-4 mb-12">
-          <div className="p-3 bg-blue-500/10 rounded-xl text-blue-500">
-            <Droplet size={32} />
-          </div>
-          <h2 className="text-3xl font-heading font-bold">Plumbing Services</h2>
-        </div>
+      <ServiceSection
+        id="plumbing"
+        title="Plumbing Services"
+        icon={<Droplet size={32} />}
+        iconClassName="bg-blue-500/10 text-blue-500"
+        borderClassName="hover:border-blue-500/50"
+        category="plumbing"
+      />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {plumbingServices.map((service, index) => (
-            <div
-              key={index}
-              className="p-6 border border-border rounded-xl bg-card hover:border-blue-500/50 transition-colors"
-            >
-              <h3 className="text-xl font-bold mb-3 flex items-center gap-2">
-                <CheckCircle2 size={20} className="text-blue-500" />
-                {service.title}
-              </h3>
-              <p className="text-muted-foreground ml-7 leading-relaxed">
-                {service.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <div className="container mx-auto px-4">
+        <div className="h-px bg-border w-full" />
+      </div>
+
+      <ServiceSection
+        id="specialized"
+        title="Maintenance & Commercial Services"
+        icon={<Wrench size={32} />}
+        iconClassName="bg-orange-500/10 text-orange-500"
+        borderClassName="hover:border-orange-500/50"
+        category="specialized"
+      />
 
       {/* CTA Section */}
       <section className="py-20 bg-muted/40 text-primary-foreground text-center">

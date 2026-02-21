@@ -2,45 +2,45 @@ import { Zap, Droplet, Wrench, ShieldCheck, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { HOME_SERVICE_SLUGS, SERVICE_BY_SLUG } from "@/constants/services";
 
 const services = [
   {
     icon: Zap,
-    title: "Electrical Services",
-    description:
-      "Complete wiring, panel upgrades, and smart home installations for safety and efficiency.",
-    link: "/services#electrical",
+    slug: HOME_SERVICE_SLUGS[0],
     color: "text-secondary",
     bg: "bg-secondary/10",
   },
   {
     icon: Droplet,
-    title: "Plumbing Solutions",
-    description:
-      "Expert detailed leak detection, pipe repair, and installation for residential and commercial needs.",
-    link: "/services#plumbing",
+    slug: HOME_SERVICE_SLUGS[1],
     color: "text-blue-400",
     bg: "bg-blue-400/10",
   },
   {
     icon: Wrench,
-    title: "Maintenance Contracts",
-    description:
-      "Regular check-ups and preventative maintenance to keep your systems running smoothly.",
-    link: "/services#maintenance",
+    slug: HOME_SERVICE_SLUGS[2],
     color: "text-orange-400",
     bg: "bg-orange-400/10",
   },
   {
     icon: ShieldCheck,
-    title: "Safety Inspections",
-    description:
-      "Thorough electrical and plumbing inspections to ensure compliance and peace of mind.",
-    link: "/about",
+    slug: HOME_SERVICE_SLUGS[3],
     color: "text-green-400",
     bg: "bg-green-400/10",
   },
-];
+]
+  .map((item) => ({
+    ...item,
+    service: SERVICE_BY_SLUG[item.slug],
+  }))
+  .filter(
+    (
+      item,
+    ): item is (typeof item & {
+      service: NonNullable<(typeof item)["service"]>;
+    }) => Boolean(item.service),
+  );
 
 export function ServicesOverview() {
   return (
@@ -58,7 +58,7 @@ export function ServicesOverview() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {services.map((service, index) => (
           <motion.div
-            key={index}
+            key={service.slug}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -71,13 +71,13 @@ export function ServicesOverview() {
               <service.icon size={24} />
             </div>
             <h3 className="text-xl font-bold mb-3 group-hover:text-secondary transition-colors">
-              {service.title}
+              {service.service.title}
             </h3>
             <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
-              {service.description}
+              {service.service.shortDescription}
             </p>
             <Link
-              to={service.link}
+              to={`/services/${service.service.slug}`}
               className="inline-flex items-center text-sm font-medium text-primary hover:text-secondary transition-colors"
             >
               Learn More <ArrowRight size={14} className="ml-1" />

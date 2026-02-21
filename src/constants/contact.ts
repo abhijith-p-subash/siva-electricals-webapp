@@ -23,7 +23,7 @@ export const CONTACT_INFO = {
     },
     mapLocation: "https://maps.google.com",
     mapEmbedUrl:
-        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15555.5!2d80.25!3d13.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDAwJzAwLjAiTiA4MMKwMTUnMDAuMCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin",
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62865.021318360916!2d76.91158381282746!3d10.01158628993963!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b07962fffffffff%3A0x949901a79ab7c39!2sSiva%20Electrical%20Solutions%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1771673520837!5m2!1sen!2sin",
     workingHours: {
         weekdays: "8:00 AM - 6:00 PM",
         saturday: "9:00 AM - 4:00 PM",

@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CONTACT_INFO } from "@/constants/contact";
+import { FOOTER_SERVICE_LINKS, SERVICE_BY_SLUG } from "@/constants/services";
 
 export function Footer() {
   return (
@@ -74,14 +75,6 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  to="/services"
-                  className="hover:text-secondary transition-colors"
-                >
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link
                   to="/contact"
                   className="hover:text-secondary transition-colors"
                 >
@@ -95,46 +88,18 @@ export function Footer() {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Services</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <Link
-                  to="/services"
-                  className="hover:text-secondary transition-colors"
-                >
-                  Electrical Wiring
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/services"
-                  className="hover:text-secondary transition-colors"
-                >
-                  Plumbing Solutions
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/services"
-                  className="hover:text-secondary transition-colors"
-                >
-                  Smart Home Setup
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/services"
-                  className="hover:text-secondary transition-colors"
-                >
-                  Maintenance
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/services"
-                  className="hover:text-secondary transition-colors"
-                >
-                  Commercial Contracts
-                </Link>
-              </li>
+              {FOOTER_SERVICE_LINKS.filter((item) => SERVICE_BY_SLUG[item.slug]).map(
+                (item) => (
+                  <li key={item.slug}>
+                    <Link
+                      to={`/services/${item.slug}`}
+                      className="hover:text-secondary transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ),
+              )}
             </ul>
           </div>
 
