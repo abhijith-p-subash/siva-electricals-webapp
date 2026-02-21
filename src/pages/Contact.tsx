@@ -1,5 +1,5 @@
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { CONTACT_INFO } from "@/constants/contact";
 import { Seo } from "@/components/seo/Seo";
@@ -103,11 +103,11 @@ export function Contact() {
               </div>
             </div>
 
-            <div className="pt-6">
+            {/* <div className="pt-6">
               <Button size="lg" className="w-full md:w-auto">
                 Schedule a Service
               </Button>
-            </div>
+            </div> */}
           </div>
 
           {/* Map & Form */}
@@ -119,6 +119,7 @@ export function Contact() {
 
             <div className="bg-muted/10 rounded-2xl border border-border overflow-hidden h-[300px] relative">
               <iframe
+                key={1233}
                 src={CONTACT_INFO.mapEmbedUrl}
                 width="100%"
                 height="100%"
