@@ -15,10 +15,18 @@ import {
 import { sendContactEmail } from "@/lib/email";
 
 const contactSchema = z.object({
-  name: z.string().min(2, "Name is required"),
+  name: z.string().trim().min(2, "Name is required").max(100, "Name is too long"),
   email: z.string().email("Valid email is required"),
-  phone: z.string().min(10, "Valid phone number is required"),
-  message: z.string().min(10, "Message must be at least 10 characters"),
+  phone: z
+    .string()
+    .trim()
+    .regex(/^[+\d\s\-()]{10,20}$/, "Valid phone number is required"),
+  message: z
+    .string()
+    .trim()
+    .min(10, "Message must be at least 10 characters")
+    .max(2000, "Message is too long"),
+  website: z.string().max(0).optional(),
 });
 
 type ContactFormValues = z.infer<typeof contactSchema>;
@@ -31,12 +39,22 @@ export function ContactForm() {
       email: "",
       phone: "",
       message: "",
+      website: "",
     },
   });
 
   async function onSubmit(data: ContactFormValues) {
+    if (data.website) {
+      return;
+    }
+
     try {
-      await sendContactEmail(data);
+      await sendContactEmail({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        message: data.message,
+      });
       alert("Message sent successfully.");
       form.reset();
     } catch (error) {
@@ -97,6 +115,25 @@ export function ContactForm() {
                 <Textarea
                   placeholder="How can we help?"
                   className="min-h-[120px]"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="website"
+          render={({ field }) => (
+            <FormItem className="hidden">
+              <FormLabel>Website</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
                   {...field}
                 />
               </FormControl>

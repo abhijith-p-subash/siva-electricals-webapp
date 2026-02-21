@@ -121,11 +121,13 @@ export function Contact() {
               <iframe
                 key={1233}
                 src={CONTACT_INFO.mapEmbedUrl}
+                title="Siva Electricals location on Google Maps"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
                 className="grayscale opacity-80 hover:grayscale-0 transition-all duration-500"
               ></iframe>
             </div>

@@ -1,4 +1,6 @@
 const EMAILJS_ENDPOINT = "https://api.emailjs.com/api/v1.0/email/send";
+const REQUEST_TIMEOUT_MS = 10000;
+const MIN_SUBMISSION_INTERVAL_MS = 15000;
 
 type EmailTemplateParams = Record<string, string>;
 
@@ -27,6 +29,22 @@ function requiredEnv(key: string): string {
   return value;
 }
 
+function enforceRateLimit(kind: "contact" | "quote"): void {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const storageKey = `siva:last-submit:${kind}`;
+  const now = Date.now();
+  const last = Number(window.sessionStorage.getItem(storageKey) || "0");
+
+  if (now - last < MIN_SUBMISSION_INTERVAL_MS) {
+    throw new Error("Please wait before sending another request.");
+  }
+
+  window.sessionStorage.setItem(storageKey, String(now));
+}
+
 async function sendTemplateEmail(
   templateId: string,
   params: EmailTemplateParams,
@@ -34,11 +52,15 @@ async function sendTemplateEmail(
   const serviceId = requiredEnv("VITE_EMAILJS_SERVICE_ID");
   const publicKey = requiredEnv("VITE_EMAILJS_PUBLIC_KEY");
 
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
   const response = await fetch(EMAILJS_ENDPOINT, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
+    signal: controller.signal,
     body: JSON.stringify({
       service_id: serviceId,
       template_id: templateId,
@@ -46,14 +68,15 @@ async function sendTemplateEmail(
       template_params: params,
     }),
   });
+  clearTimeout(timeout);
 
   if (!response.ok) {
-    const errorBody = await response.text();
-    throw new Error(errorBody || "EmailJS request failed");
+    throw new Error("Email service rejected the request.");
   }
 }
 
 export async function sendContactEmail(payload: ContactEmailPayload): Promise<void> {
+  enforceRateLimit("contact");
   const templateId = requiredEnv("VITE_EMAILJS_CONTACT_TEMPLATE_ID");
 
   await sendTemplateEmail(templateId, {
@@ -66,6 +89,7 @@ export async function sendContactEmail(payload: ContactEmailPayload): Promise<vo
 }
 
 export async function sendQuoteEmail(payload: QuoteEmailPayload): Promise<void> {
+  enforceRateLimit("quote");
   const templateId = requiredEnv("VITE_EMAILJS_QUOTE_TEMPLATE_ID");
 
   await sendTemplateEmail(templateId, {

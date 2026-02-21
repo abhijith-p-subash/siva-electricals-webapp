@@ -23,15 +23,21 @@ import { CONTACT_INFO } from "@/constants/contact";
 import { sendQuoteEmail } from "@/lib/email";
 
 const quoteSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  phone: z.string().min(10, "Phone number must be valid"),
+  name: z.string().trim().min(2, "Name must be at least 2 characters").max(100, "Name is too long"),
+  phone: z
+    .string()
+    .trim()
+    .regex(/^[+\d\s\-()]{10,20}$/, "Phone number must be valid"),
   email: z.string().email("Invalid email address"),
   serviceType: z.string().min(1, "Please select a service type"),
-  location: z.string().min(2, "Location is required"),
+  location: z.string().trim().min(2, "Location is required").max(150, "Location is too long"),
   preferredDate: z.string().optional(),
   description: z
     .string()
-    .min(10, "Please provide some details about the project"),
+    .trim()
+    .min(10, "Please provide some details about the project")
+    .max(2000, "Project details are too long"),
+  website: z.string().max(0).optional(),
 });
 
 type QuoteFormValues = z.infer<typeof quoteSchema>;
@@ -47,12 +53,25 @@ export function QuoteForm() {
       location: "",
       preferredDate: "",
       description: "",
+      website: "",
     },
   });
 
   async function onSubmit(data: QuoteFormValues) {
+    if (data.website) {
+      return;
+    }
+
     try {
-      await sendQuoteEmail(data);
+      await sendQuoteEmail({
+        name: data.name,
+        phone: data.phone,
+        email: data.email,
+        serviceType: data.serviceType,
+        location: data.location,
+        preferredDate: data.preferredDate,
+        description: data.description,
+      });
       alert("Quote request submitted successfully.");
       form.reset();
     } catch (error) {
@@ -172,6 +191,26 @@ export function QuoteForm() {
 
         <FormField
           control={form.control}
+          name="website"
+          render={({ field }) => (
+            <FormItem className="hidden">
+              <FormLabel>Website</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="description"
           render={({ field }) => (
             <FormItem>
@@ -187,7 +226,6 @@ export function QuoteForm() {
             </FormItem>
           )}
         />
-
         <Button
           type="submit"
           size="lg"
