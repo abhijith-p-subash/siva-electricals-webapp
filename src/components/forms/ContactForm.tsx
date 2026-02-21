@@ -12,9 +12,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { sendContactEmail } from "@/lib/email";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name is required"),
+  email: z.string().email("Valid email is required"),
   phone: z.string().min(10, "Valid phone number is required"),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
@@ -26,15 +28,21 @@ export function ContactForm() {
     resolver: zodResolver(contactSchema),
     defaultValues: {
       name: "",
+      email: "",
       phone: "",
       message: "",
     },
   });
 
-  function onSubmit(data: ContactFormValues) {
-    console.log("Contact form submitted:", data);
-    alert("Message sent!");
-    form.reset();
+  async function onSubmit(data: ContactFormValues) {
+    try {
+      await sendContactEmail(data);
+      alert("Message sent successfully.");
+      form.reset();
+    } catch (error) {
+      console.error("Contact form submission failed:", error);
+      alert("Unable to send message right now. Please try again.");
+    }
   }
 
   return (
@@ -48,6 +56,19 @@ export function ContactForm() {
               <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input placeholder="Your Name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input type="email" placeholder="you@example.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -83,8 +104,8 @@ export function ContactForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
-          Send Message
+        <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+          {form.formState.isSubmitting ? "Sending..." : "Send Message"}
         </Button>
       </form>
     </Form>

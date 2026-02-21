@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Menu, X, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { CONTACT_INFO } from "@/constants/contact";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -80,9 +81,12 @@ export function Navbar() {
                   variant="outline"
                   className="w-full gap-2"
                   onClick={() => setIsOpen(false)}
+                  asChild
                 >
-                  <Phone size={16} />
-                  Call Now
+                  <a href={`tel:${CONTACT_INFO.phones[0].value}`}>
+                    <Phone size={16} />
+                    Call Now
+                  </a>
                 </Button>
               </div>
             </div>

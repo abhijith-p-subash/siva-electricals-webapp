@@ -1,6 +1,7 @@
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { CONTACT_INFO } from "@/constants/contact";
 
 export function Contact() {
   return (
@@ -31,7 +32,17 @@ export function Contact() {
               </div>
               <div>
                 <h3 className="text-lg font-bold mb-1">Phone & WhatsApp</h3>
-                <p className="text-muted-foreground">+91 98765 43210</p>
+                <div className="text-muted-foreground space-y-1">
+                  {CONTACT_INFO.phones.map((phone) => (
+                    <a
+                      key={phone.value}
+                      href={`tel:${phone.value}`}
+                      className="block hover:text-secondary transition-colors"
+                    >
+                      {phone.display}
+                    </a>
+                  ))}
+                </div>
                 <p className="text-muted-foreground text-sm mt-1">
                   Available 24/7 for emergencies
                 </p>
@@ -45,10 +56,10 @@ export function Contact() {
               <div>
                 <h3 className="text-lg font-bold mb-1">Email</h3>
                 <p className="text-muted-foreground">
-                  contact@sivaelectricals.com
+                  {CONTACT_INFO.email.primary}
                 </p>
                 <p className="text-muted-foreground">
-                  support@sivaelectricals.com
+                  {CONTACT_INFO.email.support}
                 </p>
               </div>
             </div>
@@ -60,9 +71,12 @@ export function Contact() {
               <div>
                 <h3 className="text-lg font-bold mb-1">Location</h3>
                 <p className="text-muted-foreground">
-                  123 Contractor Lane, Build City
+                  {CONTACT_INFO.address.street}, {CONTACT_INFO.address.city}
                 </p>
-                <p className="text-muted-foreground">BC 54321, India</p>
+                <p className="text-muted-foreground">
+                  {CONTACT_INFO.address.state} {CONTACT_INFO.address.zip},{" "}
+                  {CONTACT_INFO.address.country}
+                </p>
               </div>
             </div>
 
@@ -73,9 +87,12 @@ export function Contact() {
               <div>
                 <h3 className="text-lg font-bold mb-1">Business Hours</h3>
                 <div className="grid grid-cols-2 gap-x-8 text-muted-foreground text-sm">
-                  <span>Mon - Fri:</span> <span>8:00 AM - 6:00 PM</span>
-                  <span>Saturday:</span> <span>9:00 AM - 4:00 PM</span>
-                  <span>Sunday:</span> <span>Emergency Only</span>
+                  <span>Mon - Fri:</span>{" "}
+                  <span>{CONTACT_INFO.workingHours.weekdays}</span>
+                  <span>Saturday:</span>{" "}
+                  <span>{CONTACT_INFO.workingHours.saturday}</span>
+                  <span>Sunday:</span>{" "}
+                  <span>{CONTACT_INFO.workingHours.sunday}</span>
                 </div>
               </div>
             </div>
@@ -96,7 +113,7 @@ export function Contact() {
 
             <div className="bg-muted/10 rounded-2xl border border-border overflow-hidden h-[300px] relative">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15555.5!2d80.25!3d13.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDAwJzAwLjAiTiA4MMKwMTUnMDAuMCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin"
+                src={CONTACT_INFO.mapEmbedUrl}
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

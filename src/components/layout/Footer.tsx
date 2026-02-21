@@ -8,6 +8,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CONTACT_INFO } from "@/constants/contact";
 
 export function Footer() {
   return (
@@ -26,19 +27,19 @@ export function Footer() {
             </p>
             <div className="flex space-x-4">
               <Link
-                to="#"
+                to={CONTACT_INFO.socialLinks.facebook}
                 className="text-muted-foreground hover:text-white transition-colors"
               >
                 <Facebook size={20} />
               </Link>
               <Link
-                to="#"
+                to={CONTACT_INFO.socialLinks.instagram}
                 className="text-muted-foreground hover:text-white transition-colors"
               >
                 <Instagram size={20} />
               </Link>
               <Link
-                to="#"
+                to={CONTACT_INFO.socialLinks.twitter}
                 className="text-muted-foreground hover:text-white transition-colors"
               >
                 <Twitter size={20} />
@@ -143,15 +144,25 @@ export function Footer() {
             <ul className="space-y-4 text-sm text-muted-foreground">
               <li className="flex items-start gap-3">
                 <MapPin size={18} className="text-secondary shrink-0 mt-0.5" />
-                <span>123 Contractor Lane, Build City, BC 54321</span>
+                <span>{CONTACT_INFO.address.full}</span>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone size={18} className="text-secondary shrink-0" />
-                <span>+91 98765 43210</span>
+              <li className="flex items-start gap-3">
+                <Phone size={18} className="text-secondary shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  {CONTACT_INFO.phones.map((phone) => (
+                    <a
+                      key={phone.value}
+                      href={`tel:${phone.value}`}
+                      className="block hover:text-secondary transition-colors"
+                    >
+                      {phone.display}
+                    </a>
+                  ))}
+                </div>
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={18} className="text-secondary shrink-0" />
-                <span>contact@sivaelectricals.com</span>
+                <span>{CONTACT_INFO.email.primary}</span>
               </li>
             </ul>
             <Button variant="secondary" size="sm" className="w-full mt-4">

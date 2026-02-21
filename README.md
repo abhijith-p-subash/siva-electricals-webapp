@@ -2,6 +2,21 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+## Email setup for Contact + Quote forms
+
+This project now sends form submissions using EmailJS from the frontend.
+
+1. Create a `.env` file in the project root (you can copy `.env.example`).
+2. Add the following variables:
+   - `VITE_EMAILJS_PUBLIC_KEY`
+   - `VITE_EMAILJS_SERVICE_ID`
+   - `VITE_EMAILJS_CONTACT_TEMPLATE_ID`
+   - `VITE_EMAILJS_QUOTE_TEMPLATE_ID`
+
+Template params sent by the app:
+- Contact form: `from_name`, `from_email`, `phone`, `message`, `form_type`
+- Quote form: `from_name`, `from_email`, `phone`, `service_type`, `location`, `preferred_date`, `message`, `form_type`
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh

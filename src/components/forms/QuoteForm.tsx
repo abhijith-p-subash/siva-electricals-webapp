@@ -19,6 +19,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CONTACT_INFO } from "@/constants/contact";
+import { sendQuoteEmail } from "@/lib/email";
 
 const quoteSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -48,10 +50,15 @@ export function QuoteForm() {
     },
   });
 
-  function onSubmit(data: QuoteFormValues) {
-    console.log("Form submitted:", data);
-    // TODO: Integrate with Firebase
-    alert("Quote request submitted! (Simulation)");
+  async function onSubmit(data: QuoteFormValues) {
+    try {
+      await sendQuoteEmail(data);
+      alert("Quote request submitted successfully.");
+      form.reset();
+    } catch (error) {
+      console.error("Quote form submission failed:", error);
+      alert("Unable to submit quote request right now. Please try again.");
+    }
   }
 
   return (
@@ -78,7 +85,10 @@ export function QuoteForm() {
               <FormItem>
                 <FormLabel>Phone</FormLabel>
                 <FormControl>
-                  <Input placeholder="+91 98765 43210" {...field} />
+                  <Input
+                    placeholder={CONTACT_INFO.phones.map((phone) => phone.display).join(" / ")}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -178,8 +188,13 @@ export function QuoteForm() {
           )}
         />
 
-        <Button type="submit" size="lg" className="w-full">
-          Submit Request
+        <Button
+          type="submit"
+          size="lg"
+          className="w-full"
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? "Submitting..." : "Submit Request"}
         </Button>
       </form>
     </Form>
