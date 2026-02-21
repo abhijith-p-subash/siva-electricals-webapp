@@ -8,3 +8,10 @@ createRoot(document.getElementById('root')!).render(
     <App />
   </StrictMode>,
 )
+
+const bootLoader = document.getElementById("app-loading");
+if (bootLoader) {
+  requestAnimationFrame(() => {
+    bootLoader.remove();
+  });
+}

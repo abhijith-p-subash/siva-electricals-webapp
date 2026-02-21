@@ -31,6 +31,21 @@ export function ReCaptchaCheckbox({
   const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined;
 
   useEffect(() => {
+    let mounted = true;
+    loadRecaptchaScript()
+      .catch(() => undefined)
+      .finally(() => {
+        if (!mounted) {
+          return;
+        }
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
     if (!siteKey || !containerRef.current) {
       return;
     }
@@ -74,3 +89,42 @@ export function ReCaptchaCheckbox({
   return <div ref={containerRef} className="overflow-hidden" />;
 }
 
+let recaptchaScriptPromise: Promise<void> | null = null;
+
+function loadRecaptchaScript(): Promise<void> {
+  if (typeof window === "undefined") {
+    return Promise.resolve();
+  }
+
+  if (window.grecaptcha) {
+    return Promise.resolve();
+  }
+
+  if (recaptchaScriptPromise) {
+    return recaptchaScriptPromise;
+  }
+
+  recaptchaScriptPromise = new Promise<void>((resolve, reject) => {
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      'script[src*="google.com/recaptcha/api.js"]',
+    );
+
+    if (existingScript) {
+      existingScript.addEventListener("load", () => resolve(), { once: true });
+      existingScript.addEventListener("error", () => reject(new Error("Failed to load reCAPTCHA")), {
+        once: true,
+      });
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://www.google.com/recaptcha/api.js?render=explicit";
+    script.async = true;
+    script.defer = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Failed to load reCAPTCHA"));
+    document.head.appendChild(script);
+  });
+
+  return recaptchaScriptPromise;
+}

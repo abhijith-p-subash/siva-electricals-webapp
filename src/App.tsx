@@ -2,6 +2,7 @@ import { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { ErrorBoundary } from "@/components/system/ErrorBoundary";
+import { LoadingScreen } from "@/components/system/LoadingScreen";
 
 import { HelmetProvider } from "react-helmet-async";
 
@@ -28,11 +29,7 @@ function App() {
         <Router>
           <Layout>
             <Suspense
-              fallback={
-                <div className="min-h-[50vh] flex items-center justify-center text-muted-foreground">
-                  Loading...
-                </div>
-              }
+              fallback={<LoadingScreen />}
             >
               <Routes>
                 <Route path="/" element={<Home />} />
