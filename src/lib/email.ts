@@ -80,12 +80,12 @@ export async function sendContactEmail(payload: ContactEmailPayload): Promise<vo
   const templateId = requiredEnv("VITE_EMAILJS_CONTACT_TEMPLATE_ID");
 
   await sendTemplateEmail(templateId, {
-    from_name: payload.name,
-    from_email: payload.email,
-    phone: payload.phone,
-    message: payload.message,
-    form_type: "Contact",
-  });
+      from_name: payload.name,
+      from_email: payload.email,
+      phone: payload.phone,
+      message: payload.message,
+      form_type: "Contact",
+    });
 }
 
 export async function sendQuoteEmail(payload: QuoteEmailPayload): Promise<void> {
@@ -93,13 +93,13 @@ export async function sendQuoteEmail(payload: QuoteEmailPayload): Promise<void> 
   const templateId = requiredEnv("VITE_EMAILJS_QUOTE_TEMPLATE_ID");
 
   await sendTemplateEmail(templateId, {
-    from_name: payload.name,
-    from_email: payload.email,
-    phone: payload.phone,
-    service_type: payload.serviceType,
-    location: payload.location,
-    preferred_date: payload.preferredDate || "Not specified",
-    message: payload.description,
-    form_type: "Quote",
-  });
+      from_name: payload.name,
+      from_email: payload.email,
+      phone: payload.phone,
+      service_type: payload.serviceType,
+      location: payload.location,
+      preferred_date: payload.preferredDate || "Not specified",
+      message: payload.description,
+      form_type: "Quote",
+    });
 }

@@ -13,6 +13,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { sendContactEmail } from "@/lib/email";
+import { ReCaptchaCheckbox } from "@/components/security/ReCaptchaCheckbox";
+import { useCallback, useState } from "react";
 
 const contactSchema = z.object({
   name: z.string().trim().min(2, "Name is required").max(100, "Name is too long"),
@@ -32,6 +34,9 @@ const contactSchema = z.object({
 type ContactFormValues = z.infer<typeof contactSchema>;
 
 export function ContactForm() {
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [captchaResetCounter, setCaptchaResetCounter] = useState(0);
+
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
@@ -48,6 +53,11 @@ export function ContactForm() {
       return;
     }
 
+    if (!captchaToken) {
+      alert("Please complete captcha verification.");
+      return;
+    }
+
     try {
       await sendContactEmail({
         name: data.name,
@@ -57,11 +67,16 @@ export function ContactForm() {
       });
       alert("Message sent successfully.");
       form.reset();
+      setCaptchaResetCounter((value) => value + 1);
     } catch (error) {
       console.error("Contact form submission failed:", error);
       alert("Unable to send message right now. Please try again.");
     }
   }
+
+  const handleTokenChange = useCallback((token: string | null) => {
+    setCaptchaToken(token);
+  }, []);
 
   return (
     <Form {...form}>
@@ -140,6 +155,10 @@ export function ContactForm() {
               <FormMessage />
             </FormItem>
           )}
+        />
+        <ReCaptchaCheckbox
+          onTokenChange={handleTokenChange}
+          resetCounter={captchaResetCounter}
         />
         <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
           {form.formState.isSubmitting ? "Sending..." : "Send Message"}

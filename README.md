@@ -4,10 +4,12 @@ This template provides a minimal setup to get React working in Vite with HMR and
 
 ## Email setup for Contact + Quote forms
 
-This project now sends form submissions using EmailJS from the frontend.
+This project sends form submissions from the frontend using EmailJS, protected by Google reCAPTCHA v2 checkbox validation in the UI.
 
 1. Create a `.env` file in the project root (you can copy `.env.example`).
-2. Add the following variables:
+2. Add captcha variable:
+   - `VITE_RECAPTCHA_SITE_KEY`
+3. Add EmailJS variables:
    - `VITE_EMAILJS_PUBLIC_KEY`
    - `VITE_EMAILJS_SERVICE_ID`
    - `VITE_EMAILJS_CONTACT_TEMPLATE_ID`

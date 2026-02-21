@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/select";
 import { CONTACT_INFO } from "@/constants/contact";
 import { sendQuoteEmail } from "@/lib/email";
+import { ReCaptchaCheckbox } from "@/components/security/ReCaptchaCheckbox";
+import { useCallback, useState } from "react";
 
 const quoteSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100, "Name is too long"),
@@ -43,6 +45,9 @@ const quoteSchema = z.object({
 type QuoteFormValues = z.infer<typeof quoteSchema>;
 
 export function QuoteForm() {
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [captchaResetCounter, setCaptchaResetCounter] = useState(0);
+
   const form = useForm<QuoteFormValues>({
     resolver: zodResolver(quoteSchema),
     defaultValues: {
@@ -62,6 +67,11 @@ export function QuoteForm() {
       return;
     }
 
+    if (!captchaToken) {
+      alert("Please complete captcha verification.");
+      return;
+    }
+
     try {
       await sendQuoteEmail({
         name: data.name,
@@ -74,11 +84,16 @@ export function QuoteForm() {
       });
       alert("Quote request submitted successfully.");
       form.reset();
+      setCaptchaResetCounter((value) => value + 1);
     } catch (error) {
       console.error("Quote form submission failed:", error);
       alert("Unable to submit quote request right now. Please try again.");
     }
   }
+
+  const handleTokenChange = useCallback((token: string | null) => {
+    setCaptchaToken(token);
+  }, []);
 
   return (
     <Form {...form}>
@@ -225,6 +240,10 @@ export function QuoteForm() {
               <FormMessage />
             </FormItem>
           )}
+        />
+        <ReCaptchaCheckbox
+          onTokenChange={handleTokenChange}
+          resetCounter={captchaResetCounter}
         />
         <Button
           type="submit"
