@@ -14,12 +14,12 @@ export const CONTACT_INFO = {
         support: "support@sivaelectricals.com",
     },
     address: {
-        street: "123 Contractor Lane",
-        city: "Build City",
-        state: "BC",
-        zip: "54321",
+        street: "Achuthamenon Road",
+        city: "Adimali",
+        state: "Idukki Kerala",
+        zip: "685561",
         country: "India",
-        full: "123 Contractor Lane, Build City, BC 54321",
+        full: "Achuthamenon Road, Adimali, Idukki Kerala 685561, India",
     },
     mapLocation: "https://maps.google.com",
     mapEmbedUrl:
