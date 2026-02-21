@@ -18,9 +18,16 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand Column */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-heading font-bold">
-              Siva <span className="text-secondary">Electricals</span>
-            </h3>
+            <Link to="/" className="inline-flex items-center gap-2 text-2xl font-heading font-bold">
+              <img
+                src="/site-icon.svg"
+                alt="Siva Electricals logo"
+                className="h-8 w-8"
+              />
+              <span>
+                Siva <span className="text-secondary">Electricals</span>
+              </span>
+            </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Premium electrical and plumbing contracting services for
               residential and commercial projects. Safe, reliable, and

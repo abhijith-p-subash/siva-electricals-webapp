@@ -1,8 +1,14 @@
 import { QuoteForm } from "@/components/forms/QuoteForm";
+import { Seo } from "@/components/seo/Seo";
 
 export function Quote() {
   return (
     <div className="flex flex-col min-h-screen">
+      <Seo
+        title="Request a Quote"
+        description="Request a detailed quote for electrical and plumbing services from Siva Electricals Constructions."
+        path="/quote"
+      />
       <section className="bg-muted/30 py-12 md:py-20 text-center">
         <div className="container mx-auto px-4">
           <h1 className="text-3xl md:text-5xl font-heading font-bold mb-4">

@@ -19,8 +19,15 @@ export function Navbar() {
     <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="text-xl font-heading font-bold text-foreground">
-          Siva <span className="text-secondary">Electricals</span>
+        <Link to="/" className="flex items-center gap-2 text-xl font-heading font-bold text-foreground">
+          <img
+            src="/site-icon.svg"
+            alt="Siva Electricals logo"
+            className="h-8 w-8"
+          />
+          <span>
+            Siva <span className="text-secondary">Electricals</span>
+          </span>
         </Link>
 
         {/* Desktop Navigation */}

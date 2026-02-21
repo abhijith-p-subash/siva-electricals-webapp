@@ -17,6 +17,17 @@ Template params sent by the app:
 - Contact form: `from_name`, `from_email`, `phone`, `message`, `form_type`
 - Quote form: `from_name`, `from_email`, `phone`, `service_type`, `location`, `preferred_date`, `message`, `form_type`
 
+## SEO setup
+
+Set `VITE_SITE_URL` in `.env` to your production domain, for example:
+
+- `VITE_SITE_URL=https://www.sivaelectricals.com`
+
+Also update domain references inside:
+
+- `public/robots.txt`
+- `public/sitemap.xml`
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh

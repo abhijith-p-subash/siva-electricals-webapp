@@ -1,8 +1,14 @@
 import { Award, Users, Target, Heart } from "lucide-react";
+import { Seo } from "@/components/seo/Seo";
 
 export function About() {
   return (
     <div className="flex flex-col min-h-screen">
+      <Seo
+        title="About Us"
+        description="Learn about Siva Electricals Constructions, our values, and our commitment to safe, high-quality electrical and plumbing services."
+        path="/about"
+      />
       {/* Header */}
       <section className="bg-muted/30 py-20 text-center">
         <div className="container mx-auto px-4">

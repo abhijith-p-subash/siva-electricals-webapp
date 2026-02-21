@@ -1,8 +1,8 @@
 import { Link, Navigate, useParams } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SERVICE_BY_SLUG, SERVICE_DETAILS } from "@/constants/services";
+import { Seo } from "@/components/seo/Seo";
 
 export function ServiceDetail() {
   const { slug } = useParams();
@@ -21,10 +21,24 @@ export function ServiceDetail() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Helmet>
-        <title>{`${service.title} | Siva Electricals Constructions`}</title>
-        <meta name="description" content={service.description} />
-      </Helmet>
+      <Seo
+        title={service.title}
+        description={service.description}
+        path={`/services/${service.slug}`}
+        type="article"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          name: service.title,
+          description: service.description,
+          provider: {
+            "@type": "LocalBusiness",
+            name: "Siva Electricals Constructions",
+          },
+          areaServed: "India",
+          url: `/services/${service.slug}`,
+        }}
+      />
 
       <section className="bg-muted/30 py-16">
         <div className="container mx-auto px-4 md:px-6">

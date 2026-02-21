@@ -1,10 +1,10 @@
 import { Zap, Droplet, ArrowRight, CheckCircle2, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import { SERVICE_DETAILS } from "@/constants/services";
 import type { ServiceCategory } from "@/constants/services";
 import type { ReactNode } from "react";
+import { Seo } from "@/components/seo/Seo";
 
 function ServiceSection({
   id,
@@ -59,13 +59,21 @@ function ServiceSection({
 export function Services() {
   return (
     <div className="flex flex-col min-h-screen">
-      <Helmet>
-        <title>Our Services | Siva Electricals Constructions</title>
-        <meta
-          name="description"
-          content="Comprehensive electrical and plumbing services: wiring, panel upgrades, leak detection, pipe installation, and more."
-        />
-      </Helmet>
+      <Seo
+        title="Our Services"
+        description="Comprehensive electrical and plumbing services: wiring, panel upgrades, leak detection, pipe installation, and more."
+        path="/services"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          itemListElement: SERVICE_DETAILS.map((service, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: service.title,
+            url: `/services/${service.slug}`,
+          })),
+        }}
+      />
       {/* Page Header */}
       <section className="bg-muted/30 py-20 text-center">
         <div className="container mx-auto px-4">

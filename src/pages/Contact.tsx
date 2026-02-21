@@ -2,10 +2,16 @@ import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { CONTACT_INFO } from "@/constants/contact";
+import { Seo } from "@/components/seo/Seo";
 
 export function Contact() {
   return (
     <div className="flex flex-col min-h-screen">
+      <Seo
+        title="Contact Us"
+        description="Contact Siva Electricals Constructions for electrical and plumbing quotes, emergency support, and service inquiries."
+        path="/contact"
+      />
       {/* Header */}
       <section className="bg-muted/30 py-20 text-center">
         <div className="container mx-auto px-4">
