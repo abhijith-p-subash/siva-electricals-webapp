@@ -23,7 +23,7 @@ Template params sent by the app:
 
 Set `VITE_SITE_URL` in `.env` to your production domain, for example:
 
-- `VITE_SITE_URL=https://www.sivaelectricals.com`
+- `VITE_SITE_URL=https://www.sivaelectricals.co.in`
 
 Also update domain references inside:
 

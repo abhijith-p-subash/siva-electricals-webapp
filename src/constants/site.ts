@@ -3,7 +3,7 @@ export const SITE_CONFIG = {
   defaultTitle: "Expert Electrical & Plumbing Services",
   defaultDescription:
     "Reliable residential and commercial electrical and plumbing services including wiring, maintenance, leak repair, and smart installations.",
-  fallbackSiteUrl: "https://www.sivaelectricals.com",
+  fallbackSiteUrl: "https://www.sivaelectricals.co.in",
   defaultOgImage: "/vite.svg",
 };
 

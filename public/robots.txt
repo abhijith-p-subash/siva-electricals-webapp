@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.sivaelectricals.com/sitemap.xml
+Sitemap: https://www.sivaelectricals.co.in/sitemap.xml
