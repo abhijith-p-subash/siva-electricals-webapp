@@ -106,7 +106,7 @@ export function QuoteForm() {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="John Doe" {...field} />
+                  <Input placeholder="John Doe" autoComplete="name" maxLength={100} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -121,6 +121,9 @@ export function QuoteForm() {
                 <FormControl>
                   <Input
                     placeholder={CONTACT_INFO.phones.map((phone) => phone.display).join(" / ")}
+                    autoComplete="tel"
+                    inputMode="tel"
+                    maxLength={20}
                     {...field}
                   />
                 </FormControl>
@@ -138,7 +141,7 @@ export function QuoteForm() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="john@example.com" {...field} />
+                  <Input placeholder="john@example.com" type="email" autoComplete="email" maxLength={180} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -183,7 +186,7 @@ export function QuoteForm() {
               <FormItem>
                 <FormLabel>Location / Address</FormLabel>
                 <FormControl>
-                  <Input placeholder="City, Area or Pincode" {...field} />
+                  <Input placeholder="City, Area or Pincode" autoComplete="street-address" maxLength={150} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -234,6 +237,7 @@ export function QuoteForm() {
                 <Textarea
                   placeholder="Describe your requirements..."
                   className="min-h-[120px]"
+                  maxLength={2000}
                   {...field}
                 />
               </FormControl>

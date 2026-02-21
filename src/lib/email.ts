@@ -1,6 +1,7 @@
 const EMAILJS_ENDPOINT = "https://api.emailjs.com/api/v1.0/email/send";
 const REQUEST_TIMEOUT_MS = 10000;
 const MIN_SUBMISSION_INTERVAL_MS = 15000;
+const inFlightByTemplate = new Set<string>();
 
 type EmailTemplateParams = Record<string, string>;
 
@@ -49,29 +50,39 @@ async function sendTemplateEmail(
   templateId: string,
   params: EmailTemplateParams,
 ): Promise<void> {
+  if (inFlightByTemplate.has(templateId)) {
+    throw new Error("A request is already in progress. Please wait.");
+  }
+
   const serviceId = requiredEnv("VITE_EMAILJS_SERVICE_ID");
   const publicKey = requiredEnv("VITE_EMAILJS_PUBLIC_KEY");
+  inFlightByTemplate.add(templateId);
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
-  const response = await fetch(EMAILJS_ENDPOINT, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    signal: controller.signal,
-    body: JSON.stringify({
-      service_id: serviceId,
-      template_id: templateId,
-      user_id: publicKey,
-      template_params: params,
-    }),
-  });
-  clearTimeout(timeout);
+    const response = await fetch(EMAILJS_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      signal: controller.signal,
+      keepalive: true,
+      body: JSON.stringify({
+        service_id: serviceId,
+        template_id: templateId,
+        user_id: publicKey,
+        template_params: params,
+      }),
+    });
+    clearTimeout(timeout);
 
-  if (!response.ok) {
-    throw new Error("Email service rejected the request.");
+    if (!response.ok) {
+      throw new Error("Email service rejected the request.");
+    }
+  } finally {
+    inFlightByTemplate.delete(templateId);
   }
 }
 

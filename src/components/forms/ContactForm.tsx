@@ -88,7 +88,7 @@ export function ContactForm() {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Your Name" {...field} />
+                <Input placeholder="Your Name" autoComplete="name" maxLength={100} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -101,7 +101,7 @@ export function ContactForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="you@example.com" {...field} />
+                <Input type="email" placeholder="you@example.com" autoComplete="email" maxLength={180} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -114,7 +114,13 @@ export function ContactForm() {
             <FormItem>
               <FormLabel>Phone</FormLabel>
               <FormControl>
-                <Input placeholder="Phone Number" {...field} />
+                <Input
+                  placeholder="Phone Number"
+                  autoComplete="tel"
+                  inputMode="tel"
+                  maxLength={20}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -130,6 +136,7 @@ export function ContactForm() {
                 <Textarea
                   placeholder="How can we help?"
                   className="min-h-[120px]"
+                  maxLength={2000}
                   {...field}
                 />
               </FormControl>

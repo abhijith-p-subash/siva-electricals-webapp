@@ -12,11 +12,16 @@ type SeoProps = {
 };
 
 function getSiteUrl() {
+  const fromEnv = import.meta.env.VITE_SITE_URL;
+  if (fromEnv) {
+    return normalizeBaseUrl(fromEnv);
+  }
+
   if (typeof window !== "undefined" && window.location?.origin) {
     return normalizeBaseUrl(window.location.origin);
   }
-  const fromEnv = import.meta.env.VITE_SITE_URL || SITE_CONFIG.fallbackSiteUrl;
-  return normalizeBaseUrl(fromEnv);
+
+  return normalizeBaseUrl(SITE_CONFIG.fallbackSiteUrl);
 }
 
 export function Seo({
@@ -64,4 +69,3 @@ export function Seo({
     </Helmet>
   );
 }
-
