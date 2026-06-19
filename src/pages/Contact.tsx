@@ -1,125 +1,142 @@
-import { Mail, Phone, MapPin, Clock } from "lucide-react";
-// import { Button } from "@/components/ui/button";
+import { Mail, Phone, MapPin, Clock, MessageCircle } from "lucide-react";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { CONTACT_INFO } from "@/constants/contact";
 import { Seo } from "@/components/seo/Seo";
+import { PageHeader } from "@/components/layout/PageHeader";
+
+const WHATSAPP_MESSAGE = encodeURIComponent(
+  "Hi Siva Electricals, I'd like to enquire about your services.",
+);
 
 export function Contact() {
+  const whatsappHref = `https://wa.me/${CONTACT_INFO.whatsapp}?text=${WHATSAPP_MESSAGE}`;
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Seo
         title="Contact Us"
         description="Contact Siva Electricals Constructions for electrical and plumbing quotes, emergency support, and service inquiries."
         path="/contact"
       />
-      {/* Header */}
-      <section className="bg-muted/30 py-20 text-center">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-heading font-bold mb-4">
-            Contact Us
-          </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            We're here to help. Reach out for quotes, emergencies, or general
-            inquiries.
-          </p>
-        </div>
-      </section>
 
-      <section className="py-20 container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <PageHeader
+        eyebrow="Get in touch"
+        title="We're here to help"
+        description="Reach out for quotes, emergencies, or general enquiries — we usually respond the same day."
+      />
+
+      <section className="section-y container">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
           {/* Contact Info */}
-          <div className="space-y-8">
-            <h2 className="text-3xl font-heading font-bold mb-6">
-              Get in Touch
-            </h2>
-            <div className="flex items-start gap-4">
-              <div className="p-3 bg-secondary/10 rounded-lg text-secondary">
-                <Phone size={24} />
+          <div className="space-y-6">
+            <div className="flex items-start gap-4 rounded-xl border border-border bg-card p-5 shadow-soft">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <Phone size={22} />
               </div>
               <div>
-                <h3 className="text-lg font-bold mb-1">Phone & WhatsApp</h3>
-                <div className="text-muted-foreground space-y-1">
+                <h3 className="font-bold text-card-foreground">
+                  Phone & WhatsApp
+                </h3>
+                <div className="mt-1 space-y-1 text-sm">
                   {CONTACT_INFO.phones.map((phone) => (
                     <a
                       key={phone.value}
                       href={`tel:${phone.value}`}
-                      className="block hover:text-secondary transition-colors"
+                      className="block text-muted-foreground transition-colors hover:text-primary"
                     >
                       {phone.display}
                     </a>
                   ))}
                 </div>
-                <p className="text-muted-foreground text-sm mt-1">
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-[#1da851]"
+                >
+                  <MessageCircle size={15} /> Chat on WhatsApp
+                </a>
+                <p className="mt-1 text-xs text-muted-foreground">
                   Available 24/7 for emergencies
                 </p>
               </div>
             </div>
 
-            <div className="flex items-start gap-4">
-              <div className="p-3 bg-secondary/10 rounded-lg text-secondary">
-                <Mail size={24} />
+            <div className="flex items-start gap-4 rounded-xl border border-border bg-card p-5 shadow-soft">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <Mail size={22} />
               </div>
               <div>
-                <h3 className="text-lg font-bold mb-1">Email</h3>
-                <p className="text-muted-foreground">
-                  {CONTACT_INFO.email.primary}
-                </p>
-                <p className="text-muted-foreground">
-                  {CONTACT_INFO.email.support}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <div className="p-3 bg-secondary/10 rounded-lg text-secondary">
-                <MapPin size={24} />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold mb-1">Location</h3>
-                <p className="text-muted-foreground">
-                  {CONTACT_INFO.address.street}, {CONTACT_INFO.address.city}
-                </p>
-                <p className="text-muted-foreground">
-                  {CONTACT_INFO.address.state} {CONTACT_INFO.address.zip},{" "}
-                  {CONTACT_INFO.address.country}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <div className="p-3 bg-secondary/10 rounded-lg text-secondary">
-                <Clock size={24} />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold mb-1">Business Hours</h3>
-                <div className="grid grid-cols-2 gap-x-8 text-muted-foreground text-sm">
-                  <span>Mon - Fri:</span>{" "}
-                  <span>{CONTACT_INFO.workingHours.weekdays}</span>
-                  <span>Saturday:</span>{" "}
-                  <span>{CONTACT_INFO.workingHours.saturday}</span>
-                  <span>Sunday:</span>{" "}
-                  <span>{CONTACT_INFO.workingHours.sunday}</span>
+                <h3 className="font-bold text-card-foreground">Email</h3>
+                <div className="mt-1 space-y-1 text-sm text-muted-foreground">
+                  <a
+                    href={`mailto:${CONTACT_INFO.email.primary}`}
+                    className="block transition-colors hover:text-primary"
+                  >
+                    {CONTACT_INFO.email.primary}
+                  </a>
+                  <a
+                    href={`mailto:${CONTACT_INFO.email.support}`}
+                    className="block transition-colors hover:text-primary"
+                  >
+                    {CONTACT_INFO.email.support}
+                  </a>
                 </div>
               </div>
             </div>
 
-            {/* <div className="pt-6">
-              <Button size="lg" className="w-full md:w-auto">
-                Schedule a Service
-              </Button>
-            </div> */}
+            <div className="flex items-start gap-4 rounded-xl border border-border bg-card p-5 shadow-soft">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <MapPin size={22} />
+              </div>
+              <div>
+                <h3 className="font-bold text-card-foreground">Location</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {CONTACT_INFO.address.full}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4 rounded-xl border border-border bg-card p-5 shadow-soft">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <Clock size={22} />
+              </div>
+              <div className="w-full">
+                <h3 className="font-bold text-card-foreground">
+                  Business hours
+                </h3>
+                <dl className="mt-2 space-y-1 text-sm text-muted-foreground">
+                  <div className="flex justify-between">
+                    <dt>Mon – Fri</dt>
+                    <dd>{CONTACT_INFO.workingHours.weekdays}</dd>
+                  </div>
+                  <div className="flex justify-between">
+                    <dt>Saturday</dt>
+                    <dd>{CONTACT_INFO.workingHours.saturday}</dd>
+                  </div>
+                  <div className="flex justify-between">
+                    <dt>Sunday</dt>
+                    <dd>{CONTACT_INFO.workingHours.sunday}</dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
           </div>
 
-          {/* Map & Form */}
-          <div className="space-y-8">
-            <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-              <h3 className="text-xl font-bold mb-4">Send us a Message</h3>
+          {/* Form & Map */}
+          <div className="space-y-6">
+            <div className="rounded-xl border border-border bg-card p-6 shadow-card">
+              <h2 className="text-xl font-bold text-card-foreground">
+                Send us a message
+              </h2>
+              <p className="mb-5 mt-1 text-sm text-muted-foreground">
+                Fill in the form and we'll get back to you shortly.
+              </p>
               <ContactForm />
             </div>
 
-            <div className="bg-muted/10 rounded-2xl border border-border overflow-hidden h-[300px] relative">
+            <div className="relative h-[300px] overflow-hidden rounded-xl border border-border shadow-soft">
               <iframe
-                key={1233}
                 src={CONTACT_INFO.mapEmbedUrl}
                 title="Siva Electricals location on Google Maps"
                 width="100%"
@@ -128,8 +145,8 @@ export function Contact() {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="grayscale opacity-80 hover:grayscale-0 transition-all duration-500"
-              ></iframe>
+                className="grayscale transition-all duration-500 hover:grayscale-0"
+              />
             </div>
           </div>
         </div>

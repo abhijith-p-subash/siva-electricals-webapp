@@ -1,7 +1,13 @@
 import { Hero } from "@/components/sections/Hero";
+import { StatsBand } from "@/components/sections/StatsBand";
 import { ServicesOverview } from "@/components/sections/ServicesOverview";
 import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
+import { Process } from "@/components/sections/Process";
+import { Testimonials } from "@/components/sections/Testimonials";
+import { Faq } from "@/components/sections/Faq";
+import { CtaBand } from "@/components/sections/CtaBand";
 import { Seo } from "@/components/seo/Seo";
+import { SITE_CONFIG } from "@/constants/site";
 import { CONTACT_INFO } from "@/constants/contact";
 
 export function Home() {
@@ -9,7 +15,7 @@ export function Home() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: "Siva Electricals Constructions",
-    url: "/",
+    url: SITE_CONFIG.fallbackSiteUrl,
     telephone: CONTACT_INFO.phones.map((phone) => phone.value),
     email: CONTACT_INFO.email.primary,
     address: {
@@ -23,7 +29,7 @@ export function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Seo
         title="Expert Electrical & Plumbing Services"
         description="Reliable residential and commercial electrical and plumbing services. Certified experts for wiring, smart homes, leak detection, and more. Get a quote today."
@@ -32,8 +38,13 @@ export function Home() {
       />
 
       <Hero />
+      <StatsBand />
       <ServicesOverview />
       <WhyChooseUs />
+      <Process />
+      <Testimonials />
+      <Faq />
+      <CtaBand />
     </div>
   );
 }

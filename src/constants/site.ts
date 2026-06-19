@@ -4,7 +4,8 @@ export const SITE_CONFIG = {
   defaultDescription:
     "Reliable residential and commercial electrical and plumbing services including wiring, maintenance, leak repair, and smart installations.",
   fallbackSiteUrl: "https://www.sivaelectricals.co.in",
-  defaultOgImage: "/vite.svg",
+  // TODO: replace with a dedicated 1200x630 social share image for best results.
+  defaultOgImage: "/site-icon.svg",
 };
 
 export function normalizeBaseUrl(url: string): string {

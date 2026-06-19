@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { sendContactEmail } from "@/lib/email";
 import { ReCaptchaCheckbox } from "@/components/security/ReCaptchaCheckbox";
+import { useToast } from "@/hooks/use-toast";
 import { useCallback, useState } from "react";
 
 const contactSchema = z.object({
@@ -34,6 +35,7 @@ const contactSchema = z.object({
 type ContactFormValues = z.infer<typeof contactSchema>;
 
 export function ContactForm() {
+  const { toast } = useToast();
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [captchaResetCounter, setCaptchaResetCounter] = useState(0);
 
@@ -54,7 +56,11 @@ export function ContactForm() {
     }
 
     if (!captchaToken) {
-      alert("Please complete captcha verification.");
+      toast({
+        variant: "destructive",
+        title: "Verification needed",
+        description: "Please complete the captcha before submitting.",
+      });
       return;
     }
 
@@ -65,12 +71,20 @@ export function ContactForm() {
         phone: data.phone,
         message: data.message,
       });
-      alert("Message sent successfully.");
+      toast({
+        variant: "success",
+        title: "Message sent",
+        description: "Thanks for reaching out — we'll reply as soon as we can.",
+      });
       form.reset();
       setCaptchaResetCounter((value) => value + 1);
     } catch (error) {
       console.error("Contact form submission failed:", error);
-      alert("Unable to send message right now. Please try again.");
+      toast({
+        variant: "destructive",
+        title: "Something went wrong",
+        description: "Unable to send right now. Please try again or call us.",
+      });
     }
   }
 

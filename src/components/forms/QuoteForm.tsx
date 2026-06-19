@@ -20,8 +20,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CONTACT_INFO } from "@/constants/contact";
+import { QUOTE_SERVICE_OPTIONS } from "@/constants/company";
 import { sendQuoteEmail } from "@/lib/email";
 import { ReCaptchaCheckbox } from "@/components/security/ReCaptchaCheckbox";
+import { useToast } from "@/hooks/use-toast";
 import { useCallback, useState } from "react";
 
 const quoteSchema = z.object({
@@ -45,6 +47,7 @@ const quoteSchema = z.object({
 type QuoteFormValues = z.infer<typeof quoteSchema>;
 
 export function QuoteForm() {
+  const { toast } = useToast();
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [captchaResetCounter, setCaptchaResetCounter] = useState(0);
 
@@ -68,7 +71,11 @@ export function QuoteForm() {
     }
 
     if (!captchaToken) {
-      alert("Please complete captcha verification.");
+      toast({
+        variant: "destructive",
+        title: "Verification needed",
+        description: "Please complete the captcha before submitting.",
+      });
       return;
     }
 
@@ -82,12 +89,20 @@ export function QuoteForm() {
         preferredDate: data.preferredDate,
         description: data.description,
       });
-      alert("Quote request submitted successfully.");
+      toast({
+        variant: "success",
+        title: "Quote request sent",
+        description: "Thanks! We'll get back to you with an estimate shortly.",
+      });
       form.reset();
       setCaptchaResetCounter((value) => value + 1);
     } catch (error) {
       console.error("Quote form submission failed:", error);
-      alert("Unable to submit quote request right now. Please try again.");
+      toast({
+        variant: "destructive",
+        title: "Something went wrong",
+        description: "Unable to submit right now. Please try again or call us.",
+      });
     }
   }
 
@@ -163,13 +178,11 @@ export function QuoteForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="electrical">
-                      Electrical Wiring
-                    </SelectItem>
-                    <SelectItem value="plumbing">Plumbing</SelectItem>
-                    <SelectItem value="maintenance">Maintenance</SelectItem>
-                    <SelectItem value="smart-home">Smart Home Setup</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
+                    {QUOTE_SERVICE_OPTIONS.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />

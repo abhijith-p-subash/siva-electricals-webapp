@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 import { Menu, X, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/system/ThemeToggle";
 import { CONTACT_INFO } from "@/constants/contact";
+import { cn } from "@/lib/utils";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -14,46 +16,89 @@ const navLinks = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const primaryPhone = CONTACT_INFO.phones[0];
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+    <header
+      className={cn(
+        "fixed top-0 z-50 w-full transition-all duration-300",
+        scrolled
+          ? "border-b border-border bg-background/85 backdrop-blur-md shadow-soft"
+          : "border-b border-transparent bg-background/60 backdrop-blur-sm",
+      )}
+    >
+      <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 text-xl font-heading font-bold text-foreground">
+        <Link
+          to="/"
+          className="flex items-center gap-2 text-lg font-heading font-bold text-foreground"
+        >
           <img
             src="/site-icon.svg"
             alt="Siva Electricals logo"
             className="h-8 w-8"
           />
           <span>
-            Siva <span className="text-secondary">Electricals</span>
+            Siva <span className="text-primary">Electricals</span>
           </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-8">
+        <nav className="hidden items-center gap-1 md:flex">
           {navLinks.map((link) => (
-            <Link
+            <NavLink
               key={link.name}
               to={link.href}
-              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+              end={link.href === "/"}
+              className={({ isActive }) =>
+                cn(
+                  "rounded-full px-4 py-2 text-sm font-medium transition-colors",
+                  isActive
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                )
+              }
             >
               {link.name}
-            </Link>
+            </NavLink>
           ))}
-          <Button variant="default" size="sm" asChild>
+        </nav>
+
+        {/* Desktop actions */}
+        <div className="hidden items-center gap-3 md:flex">
+          <ThemeToggle />
+          <a
+            href={`tel:${primaryPhone.value}`}
+            className="flex items-center gap-2 text-sm font-semibold text-foreground transition-colors hover:text-primary"
+          >
+            <Phone size={16} className="text-primary" />
+            {primaryPhone.display}
+          </a>
+          <Button size="sm" asChild>
             <Link to="/quote">Get a Quote</Link>
           </Button>
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="md:hidden p-2 text-foreground"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle menu"
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile controls */}
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
+          <button
+            className="p-2 text-foreground"
+            onClick={() => setIsOpen((v) => !v)}
+            aria-label="Toggle menu"
+            aria-expanded={isOpen}
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation */}
@@ -63,36 +108,35 @@ export function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-background border-b border-border overflow-hidden"
+            className="overflow-hidden border-b border-border bg-background md:hidden"
           >
-            <div className="flex flex-col p-4 space-y-4">
+            <div className="container flex flex-col gap-1 py-4">
               {navLinks.map((link) => (
-                <Link
+                <NavLink
                   key={link.name}
                   to={link.href}
-                  className="text-lg font-medium text-foreground py-2 border-b border-border/50 last:border-0"
+                  end={link.href === "/"}
                   onClick={() => setIsOpen(false)}
+                  className={({ isActive }) =>
+                    cn(
+                      "rounded-lg px-3 py-3 text-base font-medium transition-colors",
+                      isActive
+                        ? "bg-primary/10 text-primary"
+                        : "text-foreground hover:bg-muted",
+                    )
+                  }
                 >
                   {link.name}
-                </Link>
+                </NavLink>
               ))}
-              <div className="pt-2 flex flex-col gap-2">
-                <Button
-                  className="w-full"
-                  onClick={() => setIsOpen(false)}
-                  asChild
-                >
+              <div className="mt-2 flex flex-col gap-2">
+                <Button onClick={() => setIsOpen(false)} asChild>
                   <Link to="/quote">Get a Quote</Link>
                 </Button>
-                <Button
-                  variant="outline"
-                  className="w-full gap-2"
-                  onClick={() => setIsOpen(false)}
-                  asChild
-                >
-                  <a href={`tel:${CONTACT_INFO.phones[0].value}`}>
+                <Button variant="outline" className="gap-2" asChild>
+                  <a href={`tel:${primaryPhone.value}`}>
                     <Phone size={16} />
-                    Call Now
+                    Call {primaryPhone.display}
                   </a>
                 </Button>
               </div>
@@ -100,6 +144,6 @@ export function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </header>
   );
 }

@@ -1,28 +1,43 @@
+import { ShieldCheck, Clock, BadgeCheck } from "lucide-react";
 import { QuoteForm } from "@/components/forms/QuoteForm";
 import { Seo } from "@/components/seo/Seo";
+import { PageHeader } from "@/components/layout/PageHeader";
+
+const assurances = [
+  { icon: Clock, label: "Fast, same-day response" },
+  { icon: BadgeCheck, label: "Free, no-obligation estimate" },
+  { icon: ShieldCheck, label: "Certified & insured technicians" },
+];
 
 export function Quote() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Seo
         title="Request a Quote"
         description="Request a detailed quote for electrical and plumbing services from Siva Electricals Constructions."
         path="/quote"
       />
-      <section className="bg-muted/30 py-12 md:py-20 text-center">
-        <div className="container mx-auto px-4">
-          <h1 className="text-3xl md:text-5xl font-heading font-bold mb-4">
-            Request a Quote
-          </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Tell us about your project, and we'll get back to you with a
-            detailed estimate.
-          </p>
-        </div>
-      </section>
 
-      <section className="py-12 md:py-20 container mx-auto px-4 max-w-3xl">
-        <div className="bg-card border border-border rounded-xl p-6 md:p-8 shadow-sm">
+      <PageHeader
+        eyebrow="Free estimate"
+        title="Request a quote"
+        description="Tell us about your project and we'll get back to you with a clear, detailed estimate."
+      >
+        <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+          {assurances.map(({ icon: Icon, label }) => (
+            <li
+              key={label}
+              className="flex items-center gap-2 text-sm font-medium text-foreground/80"
+            >
+              <Icon size={18} className="text-primary" />
+              {label}
+            </li>
+          ))}
+        </ul>
+      </PageHeader>
+
+      <section className="section-y container max-w-3xl">
+        <div className="rounded-xl border border-border bg-card p-6 shadow-card md:p-8">
           <QuoteForm />
         </div>
       </section>

@@ -1,8 +1,9 @@
 import { Link, Navigate, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SERVICE_BY_SLUG, SERVICE_DETAILS } from "@/constants/services";
 import { Seo } from "@/components/seo/Seo";
+import { CONTACT_INFO } from "@/constants/contact";
 
 export function ServiceDetail() {
   const { slug } = useParams();
@@ -19,8 +20,10 @@ export function ServiceDetail() {
     return <Navigate to="/services" replace />;
   }
 
+  const primaryPhone = CONTACT_INFO.phones[0];
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Seo
         title={service.title}
         description={service.description}
@@ -40,45 +43,57 @@ export function ServiceDetail() {
         }}
       />
 
-      <section className="bg-muted/30 py-16">
-        <div className="container mx-auto px-4 md:px-6">
+      <section className="relative overflow-hidden border-b border-border bg-muted/40">
+        <div className="pointer-events-none absolute inset-0 bg-grid opacity-50" />
+        <div className="pointer-events-none absolute -top-20 right-10 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
+        <div className="container relative py-14 md:py-16">
           <Link
             to="/services"
-            className="inline-flex items-center text-sm text-muted-foreground hover:text-secondary transition-colors mb-6"
+            className="inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-primary"
           >
             <ArrowLeft size={14} className="mr-1" />
-            Back to Services
+            Back to services
           </Link>
-          <h1 className="text-4xl md:text-5xl font-heading font-bold mb-4">
+          <h1 className="mt-5 max-w-3xl text-balance text-3xl font-bold tracking-tight md:text-5xl">
             {service.title}
           </h1>
-          <p className="text-muted-foreground max-w-3xl text-lg">
+          <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
             {service.description}
           </p>
         </div>
       </section>
 
-      <section className="py-16 container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-8">
-            <div className="border border-border rounded-2xl bg-card p-6">
-              <h2 className="text-2xl font-bold mb-4">Service Highlights</h2>
-              <ul className="space-y-3">
+      <section className="section-y container">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          <div className="space-y-6 lg:col-span-2">
+            <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
+              <h2 className="text-xl font-bold text-card-foreground">
+                Service highlights
+              </h2>
+              <ul className="mt-4 space-y-3">
                 {service.highlights.map((highlight) => (
-                  <li key={highlight} className="flex items-start gap-2">
-                    <CheckCircle2 size={18} className="text-secondary mt-1" />
+                  <li key={highlight} className="flex items-start gap-3">
+                    <CheckCircle2
+                      size={18}
+                      className="mt-0.5 shrink-0 text-primary"
+                    />
                     <span className="text-muted-foreground">{highlight}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="border border-border rounded-2xl bg-card p-6">
-              <h2 className="text-2xl font-bold mb-4">What You Get</h2>
-              <ul className="space-y-3">
+            <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
+              <h2 className="text-xl font-bold text-card-foreground">
+                What you get
+              </h2>
+              <ul className="mt-4 space-y-3">
                 {service.deliverables.map((item) => (
-                  <li key={item} className="flex items-start gap-2">
-                    <CheckCircle2 size={18} className="text-secondary mt-1" />
+                  <li key={item} className="flex items-start gap-3">
+                    <CheckCircle2
+                      size={18}
+                      className="mt-0.5 shrink-0 text-primary"
+                    />
                     <span className="text-muted-foreground">{item}</span>
                   </li>
                 ))}
@@ -87,30 +102,44 @@ export function ServiceDetail() {
           </div>
 
           <div className="space-y-6">
-            <div className="border border-border rounded-2xl bg-card p-6">
-              <h2 className="text-xl font-bold mb-4">Our Process</h2>
-              <ol className="space-y-3">
+            <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
+              <h2 className="text-lg font-bold text-card-foreground">
+                Our process
+              </h2>
+              <ol className="mt-4 space-y-4">
                 {service.process.map((step, index) => (
-                  <li key={step} className="text-muted-foreground">
-                    <span className="font-semibold text-foreground mr-2">
-                      {index + 1}.
+                  <li key={step} className="flex gap-3">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+                      {index + 1}
                     </span>
-                    {step}
+                    <span className="pt-0.5 text-sm text-muted-foreground">
+                      {step}
+                    </span>
                   </li>
                 ))}
               </ol>
             </div>
 
-            <div className="border border-border rounded-2xl bg-card p-6">
-              <h2 className="text-xl font-bold mb-3">Need This Service?</h2>
-              <p className="text-muted-foreground text-sm mb-5">
-                Share your requirement and we will provide a tailored estimate.
+            <div className="rounded-xl border border-primary/20 bg-primary/5 p-6 shadow-soft">
+              <h2 className="text-lg font-bold text-card-foreground">
+                Need this service?
+              </h2>
+              <p className="mt-1.5 text-sm text-muted-foreground">
+                Share your requirement and we'll send a tailored estimate.
               </p>
-              <Button className="w-full" asChild>
-                <Link to="/quote">
-                  Get a Quote <ArrowRight size={14} className="ml-2" />
-                </Link>
-              </Button>
+              <div className="mt-4 flex flex-col gap-2">
+                <Button className="w-full" asChild>
+                  <Link to="/quote">
+                    Get a quote <ArrowRight size={14} className="ml-2" />
+                  </Link>
+                </Button>
+                <Button variant="outline" className="w-full" asChild>
+                  <a href={`tel:${primaryPhone.value}`}>
+                    <Phone size={14} className="mr-2" />
+                    {primaryPhone.display}
+                  </a>
+                </Button>
+              </div>
             </div>
           </div>
         </div>

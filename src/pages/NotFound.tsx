@@ -1,19 +1,36 @@
 import { Link } from "react-router-dom";
+import { Home, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Seo } from "@/components/seo/Seo";
 
 export function NotFound() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+    <div className="relative flex min-h-[70vh] flex-col items-center justify-center overflow-hidden px-4 text-center">
       <Seo title="Page Not Found" path="/404" noIndex />
-      <h1 className="text-6xl font-heading font-bold text-primary mb-4">404</h1>
-      <h2 className="text-2xl font-bold mb-4">Page Not Found</h2>
-      <p className="text-muted-foreground mb-8 max-w-md">
-        The page you are looking for doesn't exist or has been moved.
-      </p>
-      <Button asChild>
-        <Link to="/">Go Back Home</Link>
-      </Button>
+      <div className="pointer-events-none absolute inset-0 bg-grid opacity-40" />
+      <div className="relative">
+        <p className="font-heading text-7xl font-bold text-primary md:text-8xl">
+          404
+        </p>
+        <h1 className="mt-4 text-2xl font-bold md:text-3xl">Page not found</h1>
+        <p className="mx-auto mt-3 max-w-md text-muted-foreground">
+          The page you're looking for doesn't exist or has been moved.
+        </p>
+        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <Button asChild>
+            <Link to="/">
+              <Home size={16} className="mr-2" />
+              Go to homepage
+            </Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link to="/services">
+              <ArrowLeft size={16} className="mr-2" />
+              Browse services
+            </Link>
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

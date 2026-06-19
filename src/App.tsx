@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { ErrorBoundary } from "@/components/system/ErrorBoundary";
 import { LoadingScreen } from "@/components/system/LoadingScreen";
+import { ThemeProvider } from "@/components/system/ThemeProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 import { HelmetProvider } from "react-helmet-async";
 
@@ -25,9 +27,10 @@ const NotFound = lazy(() =>
 function App() {
   return (
     <HelmetProvider>
-      <ErrorBoundary>
-        <Router>
-          <Layout>
+      <ThemeProvider>
+        <ErrorBoundary>
+          <Router>
+            <Layout>
             <Suspense
               fallback={<LoadingScreen />}
             >
@@ -43,9 +46,11 @@ function App() {
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
-          </Layout>
-        </Router>
-      </ErrorBoundary>
+            </Layout>
+            <Toaster />
+          </Router>
+        </ErrorBoundary>
+      </ThemeProvider>
     </HelmetProvider>
   );
 }

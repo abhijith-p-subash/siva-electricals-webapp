@@ -1,55 +1,62 @@
-import { Zap, Droplet, ArrowRight, CheckCircle2, Wrench } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Zap, Droplet, ArrowRight, Wrench } from "lucide-react";
 import { Link } from "react-router-dom";
+import type { ReactNode } from "react";
 import { SERVICE_DETAILS } from "@/constants/services";
 import type { ServiceCategory } from "@/constants/services";
-import type { ReactNode } from "react";
 import { Seo } from "@/components/seo/Seo";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { CtaBand } from "@/components/sections/CtaBand";
 
 function ServiceSection({
   id,
   title,
+  description,
   icon,
-  iconClassName,
-  borderClassName,
   category,
 }: {
   id: string;
   title: string;
+  description: string;
   icon: ReactNode;
-  iconClassName: string;
-  borderClassName: string;
   category: ServiceCategory;
 }) {
-  const services = SERVICE_DETAILS.filter((service) => service.category === category);
+  const services = SERVICE_DETAILS.filter(
+    (service) => service.category === category,
+  );
 
   return (
-    <section id={id} className="py-20 container mx-auto px-4 md:px-6">
-      <div className="flex items-center gap-4 mb-12">
-        <div className={`p-3 rounded-xl ${iconClassName}`}>{icon}</div>
-        <h2 className="text-3xl font-heading font-bold">{title}</h2>
+    <section id={id} className="section-y container">
+      <div className="mb-10 flex items-start gap-4">
+        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+          {icon}
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold md:text-3xl">{title}</h2>
+          <p className="mt-1 max-w-2xl text-muted-foreground">{description}</p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {services.map((service) => (
-          <div
+          <Link
             key={service.slug}
-            className={`p-6 border border-border rounded-xl bg-card ${borderClassName} transition-colors`}
+            to={`/services/${service.slug}`}
+            className="group flex h-full flex-col rounded-xl border border-border bg-card p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-card"
           >
-            <h3 className="text-xl font-bold mb-3 flex items-center gap-2">
-              <CheckCircle2 size={20} className="text-secondary" />
+            <h3 className="text-lg font-bold text-card-foreground">
               {service.title}
             </h3>
-            <p className="text-muted-foreground ml-7 leading-relaxed mb-5">
+            <p className="mt-2 flex-grow text-sm leading-relaxed text-muted-foreground">
               {service.shortDescription}
             </p>
-            <Link
-              to={`/services/${service.slug}`}
-              className="inline-flex ml-7 items-center text-sm font-medium text-primary hover:text-secondary transition-colors"
-            >
-              View Details <ArrowRight size={14} className="ml-1" />
-            </Link>
-          </div>
+            <span className="mt-5 inline-flex items-center text-sm font-semibold text-primary">
+              View details
+              <ArrowRight
+                size={14}
+                className="ml-1 transition-transform group-hover:translate-x-1"
+              />
+            </span>
+          </Link>
         ))}
       </div>
     </section>
@@ -58,7 +65,7 @@ function ServiceSection({
 
 export function Services() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Seo
         title="Our Services"
         description="Comprehensive electrical and plumbing services: wiring, panel upgrades, leak detection, pipe installation, and more."
@@ -74,71 +81,43 @@ export function Services() {
           })),
         }}
       />
-      {/* Page Header */}
-      <section className="bg-muted/30 py-20 text-center">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-heading font-bold mb-4">
-            Our Services
-          </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Comprehensive electrical and plumbing solutions delivered by
-            certified experts.
-          </p>
-        </div>
-      </section>
+
+      <PageHeader
+        eyebrow="Our services"
+        title="Electrical & plumbing, done right"
+        description="Comprehensive solutions delivered by certified experts — for homes, shops, and commercial sites."
+      />
 
       <ServiceSection
         id="electrical"
         title="Electrical Services"
-        icon={<Zap size={32} />}
-        iconClassName="bg-secondary/10 text-secondary"
-        borderClassName="hover:border-secondary/50"
+        description="Safe, code-compliant electrical work from wiring to smart automation."
+        icon={<Zap size={28} />}
         category="electrical"
       />
 
-      <div className="container mx-auto px-4">
-        <div className="h-px bg-border w-full" />
-      </div>
-
-      <ServiceSection
-        id="plumbing"
-        title="Plumbing Services"
-        icon={<Droplet size={32} />}
-        iconClassName="bg-blue-500/10 text-blue-500"
-        borderClassName="hover:border-blue-500/50"
-        category="plumbing"
-      />
-
-      <div className="container mx-auto px-4">
-        <div className="h-px bg-border w-full" />
+      <div className="border-t border-border bg-muted/40">
+        <ServiceSection
+          id="plumbing"
+          title="Plumbing Services"
+          description="Installation, repair, and maintenance that keeps water flowing reliably."
+          icon={<Droplet size={28} />}
+          category="plumbing"
+        />
       </div>
 
       <ServiceSection
         id="specialized"
-        title="Maintenance & Commercial Services"
-        icon={<Wrench size={32} />}
-        iconClassName="bg-orange-500/10 text-orange-500"
-        borderClassName="hover:border-orange-500/50"
+        title="Maintenance & Commercial"
+        description="Preventive contracts, safety audits, and scalable support for businesses."
+        icon={<Wrench size={28} />}
         category="specialized"
       />
 
-      {/* CTA Section */}
-      <section className="py-20 bg-muted/40 text-primary-foreground text-center">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-heading font-bold mb-6">
-            Need a Custom Solution?
-          </h2>
-          <p className="text-primary-foreground/80 max-w-2xl mx-auto mb-8 text-lg">
-            We handle projects of all sizes. Contact us today to discuss your
-            specific requirements.
-          </p>
-          <Button size="lg" variant="secondary" asChild>
-            <Link to="/contact">
-              Get a Quote <ArrowRight size={16} className="ml-2" />
-            </Link>
-          </Button>
-        </div>
-      </section>
+      <CtaBand
+        title="Need a custom solution?"
+        description="We handle projects of all sizes. Tell us your requirement and we'll tailor an estimate for you."
+      />
     </div>
   );
 }

@@ -1,69 +1,80 @@
-import { CheckCircle2, Clock, Shield, ThumbsUp } from "lucide-react";
+import { CheckCircle2, Clock, ShieldCheck, ThumbsUp } from "lucide-react";
+import { motion } from "framer-motion";
 
 const reasons = [
   {
-    icon: Shield,
-    title: "Licensed & Insured",
+    icon: ShieldCheck,
+    title: "Licensed & insured",
     description:
-      "Fully certified professionals ensuring your project is handled safely and legally.",
+      "Certified professionals handling every project safely and to code.",
   },
   {
     icon: Clock,
-    title: "Timely Completion",
+    title: "On-time, every time",
     description:
-      "We respect your time and deadlines, delivering quality work on schedule.",
+      "We respect your schedule and deliver quality work on the agreed timeline.",
   },
   {
     icon: ThumbsUp,
-    title: "Satisfaction Guaranteed",
-    description: "We stand by our work. Your satisfaction is our top priority.",
+    title: "Satisfaction guaranteed",
+    description:
+      "We stand behind our work. Your satisfaction is our top priority.",
   },
   {
     icon: CheckCircle2,
-    title: "Quality Materials",
+    title: "Quality materials",
     description:
-      "Using only the best materials for durable and long-lasting results.",
+      "Only durable, trusted materials for long-lasting, reliable results.",
   },
 ];
 
 export function WhyChooseUs() {
   return (
-    <section className="py-20 bg-muted/30">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col md:flex-row items-center gap-12">
+    <section className="section-y bg-muted/50">
+      <div className="container">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
           {/* Image Side */}
-          <div className="w-full md:w-1/2 relative">
-            <div className="absolute inset-0 bg-secondary/10 rounded-2xl transform translate-x-4 translate-y-4"></div>
+          <div className="relative order-last lg:order-first">
+            <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-primary/15 to-accent/15 blur-lg" />
             <img
-              src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?q=80&w=2070&auto=format&fit=crop"
-              alt="Electrician working"
-              className="rounded-2xl shadow-xl relative z-10 w-full object-cover aspect-[4/3]"
+              src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?q=80&w=1200&auto=format&fit=crop"
+              alt="Electrician working on a project"
+              loading="lazy"
+              className="relative aspect-[4/3] w-full rounded-[1.5rem] object-cover shadow-card ring-1 ring-border"
             />
           </div>
 
           {/* Text Side */}
-          <div className="w-full md:w-1/2">
-            <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">
-              Why Choose Siva Electricals?
+          <div>
+            <span className="eyebrow">Why Siva Electricals</span>
+            <h2 className="mt-4 text-3xl font-bold md:text-4xl">
+              Reliable work, honest people
             </h2>
-            <p className="text-muted-foreground mb-8 text-lg">
+            <p className="mt-4 text-lg text-muted-foreground">
               We bring expertise, reliability, and a commitment to excellence to
-              every project, big or small.
+              every project — big or small.
             </p>
 
-            <div className="grid gap-6">
+            <div className="mt-8 grid gap-5 sm:grid-cols-2">
               {reasons.map((reason, index) => (
-                <div key={index} className="flex gap-4">
-                  <div className="shrink-0 w-12 h-12 rounded-full bg-primary/5 flex items-center justify-center text-primary">
-                    <reason.icon size={24} />
+                <motion.div
+                  key={reason.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: index * 0.08 }}
+                  viewport={{ once: true }}
+                  className="rounded-xl border border-border bg-card p-5 shadow-soft"
+                >
+                  <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <reason.icon size={22} />
                   </div>
-                  <div>
-                    <h3 className="text-xl font-bold mb-1">{reason.title}</h3>
-                    <p className="text-muted-foreground">
-                      {reason.description}
-                    </p>
-                  </div>
-                </div>
+                  <h3 className="mb-1 font-bold text-card-foreground">
+                    {reason.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {reason.description}
+                  </p>
+                </motion.div>
               ))}
             </div>
           </div>

@@ -1,102 +1,143 @@
-import { Award, Users, Target, Heart } from "lucide-react";
+import { Award, Users, Target, Heart, CheckCircle2 } from "lucide-react";
 import { Seo } from "@/components/seo/Seo";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { StatsBand } from "@/components/sections/StatsBand";
+import { CtaBand } from "@/components/sections/CtaBand";
+
+const values = [
+  {
+    icon: Target,
+    title: "Excellence",
+    description:
+      "We strive for precision in every connection, joint, and finish we deliver.",
+  },
+  {
+    icon: Award,
+    title: "Integrity",
+    description:
+      "Honest pricing, transparent communication, and no surprises on the bill.",
+  },
+  {
+    icon: Users,
+    title: "Customer first",
+    description:
+      "Your safety and satisfaction drive every decision we make on site.",
+  },
+  {
+    icon: Heart,
+    title: "Safety",
+    description:
+      "Uncompromising safety standards for our team and your property alike.",
+  },
+];
+
+const highlights = [
+  "Certified, experienced technicians",
+  "Residential, commercial & industrial work",
+  "Transparent, itemised estimates",
+  "Quality materials and clean finishing",
+];
 
 export function About() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Seo
         title="About Us"
         description="Learn about Siva Electricals Constructions, our values, and our commitment to safe, high-quality electrical and plumbing services."
         path="/about"
       />
-      {/* Header */}
-      <section className="bg-muted/30 py-20 text-center">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-heading font-bold mb-4">
-            About Siva Electricals
-          </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Dedicated to powering homes and businesses with safety, integrity,
-            and excellence.
-          </p>
-        </div>
-      </section>
 
-      {/* Story Section */}
-      <section className="py-20 container mx-auto px-4 md:px-6">
-        <div className="flex flex-col md:flex-row items-center gap-12">
-          <div className="w-full md:w-1/2">
-            <h2 className="text-3xl font-heading font-bold mb-6">Our Story</h2>
-            <div className="prose prose-lg text-muted-foreground">
-              <p className="mb-4">
-                Founded with a vision to provide reliable and high-quality
-                electrical and plumbing services, Siva Electricals Constructions
-                has grown into a trusted name in the industry.
+      <PageHeader
+        eyebrow="About us"
+        title="Powering Idukki with safety & integrity"
+        description="A trusted local name for electrical and plumbing work — dedicated to doing the job right the first time."
+      />
+
+      <StatsBand />
+
+      {/* Story */}
+      <section className="section-y container">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
+          <div>
+            <span className="eyebrow">Our story</span>
+            <h2 className="mt-4 text-3xl font-bold md:text-4xl">
+              Built on trust, grown through quality
+            </h2>
+            <div className="mt-5 space-y-4 text-muted-foreground">
+              <p>
+                Siva Electricals Constructions began with a simple goal: provide
+                reliable, high-quality electrical and plumbing services that
+                local families and businesses could depend on.
               </p>
-              <p className="mb-4">
-                We started as a small team of passionate technicians and have
-                expanded to handle large-scale commercial and industrial
-                projects, without losing our personal touch for residential
-                clients.
+              <p>
+                What started as a small team of passionate technicians has grown
+                to handle everything from single-room repairs to large
+                commercial projects — without ever losing the personal touch
+                that built our reputation.
               </p>
               <p>
                 Our commitment to safety, continuous training, and customer
-                satisfaction sets us apart. We believe in getting the job done
-                right the first time.
+                satisfaction is what sets us apart. We believe in getting the
+                job done right, the first time.
               </p>
             </div>
+
+            <ul className="mt-7 grid gap-3 sm:grid-cols-2">
+              {highlights.map((item) => (
+                <li key={item} className="flex items-start gap-2 text-sm">
+                  <CheckCircle2
+                    size={18}
+                    className="mt-0.5 shrink-0 text-primary"
+                  />
+                  <span className="text-foreground/85">{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="w-full md:w-1/2">
+
+          <div className="relative">
+            <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-primary/15 to-accent/15 blur-lg" />
             <img
-              src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop"
-              alt="Team working"
-              className="rounded-2xl shadow-xl w-full object-cover aspect-video"
+              src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=1200&auto=format&fit=crop"
+              alt="Siva Electricals team at work"
+              loading="lazy"
+              className="relative aspect-[4/3] w-full rounded-[1.5rem] object-cover shadow-card ring-1 ring-border"
             />
           </div>
         </div>
       </section>
 
-      {/* Values Section */}
-      <section className="py-20 bg-muted/40 text-primary-foreground">
-        <div className="container mx-auto px-4 md:px-6 text-center">
-          <h2 className="text-3xl font-heading font-bold mb-12">
-            Our Core Values
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="p-6 bg-primary-foreground/5 rounded-xl backdrop-blur-sm">
-              <Target size={40} className="mx-auto mb-4 text-secondary" />
-              <h3 className="text-xl font-bold mb-2">Excellence</h3>
-              <p className="text-primary-foreground/70">
-                We strive for perfection in every connection and pipe we
-                install.
-              </p>
-            </div>
-            <div className="p-6 bg-primary-foreground/5 rounded-xl backdrop-blur-sm">
-              <Award size={40} className="mx-auto mb-4 text-secondary" />
-              <h3 className="text-xl font-bold mb-2">Integrity</h3>
-              <p className="text-primary-foreground/70">
-                Honest pricing, transparent communication, and ethical
-                practices.
-              </p>
-            </div>
-            <div className="p-6 bg-primary-foreground/5 rounded-xl backdrop-blur-sm">
-              <Users size={40} className="mx-auto mb-4 text-secondary" />
-              <h3 className="text-xl font-bold mb-2">Customer First</h3>
-              <p className="text-primary-foreground/70">
-                Your safety and satisfaction are the driving forces behind our
-                work.
-              </p>
-            </div>
-            <div className="p-6 bg-primary-foreground/5 rounded-xl backdrop-blur-sm">
-              <Heart size={40} className="mx-auto mb-4 text-secondary" />
-              <h3 className="text-xl font-bold mb-2">Safety</h3>
-              <p className="text-primary-foreground/70">
-                Uncompromising safety standards for our team and your property.
-              </p>
-            </div>
+      {/* Values */}
+      <section className="section-y bg-muted/50">
+        <div className="container">
+          <div className="mx-auto mb-12 max-w-2xl text-center">
+            <span className="eyebrow">What we stand for</span>
+            <h2 className="mt-4 text-3xl font-bold md:text-4xl">
+              Our core values
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {values.map((value) => (
+              <div
+                key={value.title}
+                className="rounded-xl border border-border bg-card p-6 text-center shadow-soft"
+              >
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                  <value.icon size={26} />
+                </div>
+                <h3 className="text-lg font-bold text-card-foreground">
+                  {value.title}
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {value.description}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
+
+      <CtaBand />
     </div>
   );
 }
