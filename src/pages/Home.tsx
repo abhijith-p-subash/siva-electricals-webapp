@@ -1,5 +1,6 @@
 import { Hero } from "@/components/sections/Hero";
 import { StatsBand } from "@/components/sections/StatsBand";
+import { Clients } from "@/components/sections/Clients";
 import { ServicesOverview } from "@/components/sections/ServicesOverview";
 import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
 import { Process } from "@/components/sections/Process";
@@ -39,6 +40,7 @@ export function Home() {
 
       <Hero />
       <StatsBand />
+      <Clients />
       <ServicesOverview />
       <WhyChooseUs />
       <Process />
