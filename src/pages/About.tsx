@@ -1,5 +1,6 @@
 import { Award, Users, Target, Heart, CheckCircle2 } from "lucide-react";
 import { Seo } from "@/components/seo/Seo";
+import { buildLocalBusinessSchema, buildBreadcrumbSchema } from "@/constants/seo";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StatsBand } from "@/components/sections/StatsBand";
 import { CtaBand } from "@/components/sections/CtaBand";
@@ -42,9 +43,16 @@ export function About() {
   return (
     <div className="flex min-h-screen flex-col">
       <Seo
-        title="About Us"
-        description="Learn about Siva Electricals Constructions, our values, and our commitment to safe, high-quality electrical and plumbing services."
+        title="About Us — Trusted Electricians & Plumbers in Idukki"
+        description="Siva Electricals Constructions is a trusted local electrical & plumbing contractor in Adimali, Idukki, Kerala. Certified technicians, 15+ years of experience, and a safety-first commitment to homes and businesses."
         path="/about"
+        schema={[
+          buildLocalBusinessSchema(),
+          buildBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "About", path: "/about" },
+          ]),
+        ]}
       />
 
       <PageHeader

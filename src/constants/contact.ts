@@ -21,8 +21,26 @@ export const CONTACT_INFO = {
         state: "Idukki, Kerala",
         zip: "685561",
         country: "India",
+        countryCode: "IN",
         full: "Achuthamenon Road, Adimali, Idukki, Kerala 685561, India",
     },
+    // Geo coordinates for the Adimali office (used in LocalBusiness schema + geo meta).
+    geo: {
+        latitude: 10.0116,
+        longitude: 76.9116,
+    },
+    // Towns/areas the business actively serves — used for local SEO + LLM answers.
+    areasServed: [
+        "Adimali",
+        "Munnar",
+        "Thodupuzha",
+        "Idukki",
+        "Kattappana",
+        "Nedumkandam",
+        "Rajakkad",
+        "Devikulam",
+        "Kerala",
+    ],
     mapLocation:
         "https://www.google.com/maps/search/?api=1&query=Siva+Electrical+Solutions+Adimali",
     mapEmbedUrl:

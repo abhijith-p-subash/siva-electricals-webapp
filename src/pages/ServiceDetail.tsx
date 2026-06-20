@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SERVICE_BY_SLUG, SERVICE_DETAILS } from "@/constants/services";
 import { Seo } from "@/components/seo/Seo";
+import { buildServiceSchema, buildBreadcrumbSchema } from "@/constants/seo";
 import { CONTACT_INFO } from "@/constants/contact";
 
 export function ServiceDetail() {
@@ -25,22 +26,18 @@ export function ServiceDetail() {
   return (
     <div className="flex min-h-screen flex-col">
       <Seo
-        title={service.title}
-        description={service.description}
+        title={`${service.title} in Adimali & Idukki, Kerala`}
+        description={`${service.shortDescription} Trusted ${service.title.toLowerCase()} by Siva Electricals Constructions in Adimali, Munnar & across Idukki, Kerala. Certified technicians, transparent pricing, 24/7 support.`}
         path={`/services/${service.slug}`}
         type="article"
-        schema={{
-          "@context": "https://schema.org",
-          "@type": "Service",
-          name: service.title,
-          description: service.description,
-          provider: {
-            "@type": "LocalBusiness",
-            name: "Siva Electricals Constructions",
-          },
-          areaServed: "India",
-          url: `/services/${service.slug}`,
-        }}
+        schema={[
+          buildServiceSchema(service),
+          buildBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Services", path: "/services" },
+            { name: service.title, path: `/services/${service.slug}` },
+          ]),
+        ]}
       />
 
       <section className="relative overflow-hidden border-b border-border bg-muted/40">

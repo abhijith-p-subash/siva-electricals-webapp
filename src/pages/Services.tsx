@@ -4,6 +4,8 @@ import type { ReactNode } from "react";
 import { SERVICE_DETAILS } from "@/constants/services";
 import type { ServiceCategory } from "@/constants/services";
 import { Seo } from "@/components/seo/Seo";
+import { buildBreadcrumbSchema } from "@/constants/seo";
+import { SITE_CONFIG } from "@/constants/site";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { CtaBand } from "@/components/sections/CtaBand";
 
@@ -67,19 +69,27 @@ export function Services() {
   return (
     <div className="flex min-h-screen flex-col">
       <Seo
-        title="Our Services"
-        description="Comprehensive electrical and plumbing services: wiring, panel upgrades, leak detection, pipe installation, and more."
+        title="Electrical & Plumbing Services in Adimali & Idukki"
+        description="Full-service electrical & plumbing solutions in Adimali, Munnar and across Idukki, Kerala: house wiring & rewiring, panel upgrades, smart homes, lighting, leak detection, pipe installation, water heaters, drain cleaning, AMC & commercial contracts."
         path="/services"
-        schema={{
-          "@context": "https://schema.org",
-          "@type": "ItemList",
-          itemListElement: SERVICE_DETAILS.map((service, index) => ({
-            "@type": "ListItem",
-            position: index + 1,
-            name: service.title,
-            url: `/services/${service.slug}`,
-          })),
-        }}
+        schema={[
+          {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "Electrical & Plumbing Services",
+            itemListElement: SERVICE_DETAILS.map((service, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              name: service.title,
+              description: service.shortDescription,
+              url: `${SITE_CONFIG.fallbackSiteUrl}/services/${service.slug}`,
+            })),
+          },
+          buildBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Services", path: "/services" },
+          ]),
+        ]}
       />
 
       <PageHeader

@@ -2,6 +2,7 @@ import { Mail, Phone, MapPin, Clock, MessageCircle } from "lucide-react";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { CONTACT_INFO } from "@/constants/contact";
 import { Seo } from "@/components/seo/Seo";
+import { buildLocalBusinessSchema, buildBreadcrumbSchema } from "@/constants/seo";
 import { PageHeader } from "@/components/layout/PageHeader";
 
 const WHATSAPP_MESSAGE = encodeURIComponent(
@@ -14,9 +15,16 @@ export function Contact() {
   return (
     <div className="flex min-h-screen flex-col">
       <Seo
-        title="Contact Us"
-        description="Contact Siva Electricals Constructions for electrical and plumbing quotes, emergency support, and service inquiries."
+        title="Contact Us — Electrician & Plumber in Adimali, Idukki"
+        description="Contact Siva Electricals Constructions in Adimali, Idukki, Kerala for electrical & plumbing quotes, 24/7 emergency support, and service enquiries. Call +91 94472 94319 or message us on WhatsApp."
         path="/contact"
+        schema={[
+          buildLocalBusinessSchema(),
+          buildBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Contact", path: "/contact" },
+          ]),
+        ]}
       />
 
       <PageHeader

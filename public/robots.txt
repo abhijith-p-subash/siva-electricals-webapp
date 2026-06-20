@@ -1,4 +1,71 @@
+# Siva Electricals Constructions — robots.txt
+# Search engines and AI answer engines are welcome to crawl and cite this site.
+
 User-agent: *
 Allow: /
 
+# --- AI / LLM crawlers (explicitly allowed so we can be cited in answers) ---
+
+# OpenAI (ChatGPT)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Anthropic (Claude)
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Google (Gemini / AI Overviews — Google-Extended controls AI training/grounding)
+User-agent: Google-Extended
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Microsoft Copilot / Bing
+User-agent: bingbot
+Allow: /
+
+# Amazon
+User-agent: Amazonbot
+Allow: /
+
+# Common Crawl (feeds many LLM datasets)
+User-agent: CCBot
+Allow: /
+
+# Meta AI
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+# ByteDance (TikTok / Doubao)
+User-agent: Bytespider
+Allow: /
+
+Host: https://www.sivaelectricals.co.in
 Sitemap: https://www.sivaelectricals.co.in/sitemap.xml

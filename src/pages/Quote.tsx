@@ -1,6 +1,7 @@
 import { ShieldCheck, Clock, BadgeCheck } from "lucide-react";
 import { QuoteForm } from "@/components/forms/QuoteForm";
 import { Seo } from "@/components/seo/Seo";
+import { buildBreadcrumbSchema } from "@/constants/seo";
 import { PageHeader } from "@/components/layout/PageHeader";
 
 const assurances = [
@@ -13,9 +14,13 @@ export function Quote() {
   return (
     <div className="flex min-h-screen flex-col">
       <Seo
-        title="Request a Quote"
-        description="Request a detailed quote for electrical and plumbing services from Siva Electricals Constructions."
+        title="Request a Free Quote — Electrical & Plumbing in Idukki"
+        description="Get a free, no-obligation quote for electrical & plumbing work in Adimali, Munnar and across Idukki, Kerala. Same-day response from certified, insured technicians at Siva Electricals Constructions."
         path="/quote"
+        schema={buildBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Get a Quote", path: "/quote" },
+        ])}
       />
 
       <PageHeader
